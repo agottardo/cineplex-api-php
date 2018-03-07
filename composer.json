@@ -1,0 +1,12 @@
+{
+  "name": "clapperboard/php-api",
+  "description": "An API to access the Clapperboard DB.",
+  "minimum-stability": "alpha",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Andrea Gottardo",
+      "email": "andrea@gottardo.me"
+    }
+  ]
+}
