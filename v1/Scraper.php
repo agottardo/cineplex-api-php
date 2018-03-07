@@ -33,7 +33,8 @@ final class Scraper {
 
     }
 
-    public function getTheatres() {
+    public function printTheatres()
+    {
         $cache_file_name = "theatres_cache.txt";
         if (!file_exists($cache_file_name)) {
             $endpointURL = "https://www.cineplex.com/api/v1/theatres?language=en-us&range=100000&skip=0&take=1000";
