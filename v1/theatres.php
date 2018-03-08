@@ -10,5 +10,6 @@ require_once("../vendor/autoload.php");
 require_once("Scraper.php");
 
 $singleton = Clapperboard\Scraper::sharedInstance();
+$singleton->fetchTheatres();
 $singleton->printTheatres();
 
