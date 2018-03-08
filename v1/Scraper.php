@@ -65,6 +65,7 @@ final class Scraper {
         $responseArray = array();
         $responseArray["generated_at"] = time();
         $responseArray["generated_by"] = gethostname();
+        $responseArray["sourced_at"] = filemtime($cache_file_name);
         $responseArray["theatres"] = $this->theatresDb;
         echo(json_encode($responseArray, JSON_PRETTY_PRINT));
     }
