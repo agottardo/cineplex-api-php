@@ -6,9 +6,20 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitd36675a9aba63aca9bfacfe88ad99fec
 {
+    public static $prefixesPsr0 = array (
+        'S' => 
+        array (
+            'SimplePie' => 
+            array (
+                0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixesPsr0 = ComposerStaticInitd36675a9aba63aca9bfacfe88ad99fec::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

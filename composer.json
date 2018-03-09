@@ -8,5 +8,8 @@
       "name": "Andrea Gottardo",
       "email": "andrea@gottardo.me"
     }
-  ]
+  ],
+  "require": {
+    "simplepie/simplepie": "^1.5"
+  }
 }

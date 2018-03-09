@@ -8,13 +8,21 @@
 
 namespace Clapperboard;
 
+use SimpleXMLElement;
+
 require_once("model/Theatre.php");
+require_once("model/Movie.php");
 
 final class Scraper {
 
     public $theatresDb = array();
+    public $moviesDb = array();
 
     private $THEATRES_CACHE_FILE_NAME = "theatres_cache.txt";
+    private $THEATRES_API_ENDPOINT = "https://www.cineplex.com/api/v1/theatres?language=en-us&range=100000&skip=0&take=1000";
+
+    private $MOVIES_CACHE_FILE_NAME = "movies_cache.txt";
+    private $MOVIES_API_ENDPOINT = "https://api.cineplex.com/api.svc/FeaturedNowPlayingAndComingSoon/?AccessKey=ED63F40D-5165-49AD-9975-A463DDF122D5";
 
     /**
      * Singleton entry point.
@@ -46,8 +54,7 @@ final class Scraper {
         // TODO: Download a new version from the API every other day or so.
         if (!file_exists($this->THEATRES_CACHE_FILE_NAME)) {
             // We do not have a cached version on disk, so download one and read that.
-            $endpointURL = "https://www.cineplex.com/api/v1/theatres?language=en-us&range=100000&skip=0&take=1000";
-            $json = file_get_contents($endpointURL);
+            $json = file_get_contents($this->THEATRES_API_ENDPOINT);
             file_put_contents($this->THEATRES_CACHE_FILE_NAME, $json);
         } else {
             // We already have a cached version, so just read that.
@@ -82,23 +89,33 @@ final class Scraper {
         assert(sizeof($this->theatresDb) == $totalCount);
     }
 
-    /**
-     * Produce a JSON format output of the theatres database.
-     * PRECONDITION: $this->fetchTheatres() was called previously.
-     */
-    public function printTheatres()
+    public function fetchMovies()
     {
-        $responseArray = array();
-        // In the JSON, in addition to the DB also add:
-        // - timestamp at which the response was generated
-        // - timestamp at which the data was sourced from api.cineplex.com
-        // - hostname of the server that generated the response
-        $responseArray["generated_at"] = time();
-        $responseArray["sourced_at"] = filemtime($this->THEATRES_CACHE_FILE_NAME);
-        $responseArray["generated_by"] = gethostname();
-        $responseArray["theatres"] = $this->theatresDb;
-        // Print the response.
-        echo(json_encode($responseArray, JSON_PRETTY_PRINT));
+
+        if (!file_exists($this->MOVIES_CACHE_FILE_NAME)) {
+            // We do not have a cached version on disk, so download one and read that.
+            $urlContents = file_get_contents($this->MOVIES_API_ENDPOINT);
+            file_put_contents($this->MOVIES_CACHE_FILE_NAME, $urlContents);
+        } else {
+            // We already have a cached version, so just read that.
+            $urlContents = file_get_contents($this->MOVIES_CACHE_FILE_NAME);
+        }
+        $xml = new SimpleXMLElement($urlContents);
+        foreach ($xml->entry as $entry) {
+            $contentXml = $entry->content->children("http://schemas.microsoft.com/ado/2007/08/dataservices/metadata")->children("http://schemas.microsoft.com/ado/2007/08/dataservices");
+            $newMovie = new Movie();
+            $newMovie->id = (int)$contentXml->FilmID;
+            $newMovie->name = (string)$contentXml->Title;
+            $newMovie->releaseDate = (string)$contentXml->ReleaseDate;
+            $newMovie->genres = (string)$contentXml->Genre;
+            $newMovie->synopsis = (string)$contentXml->Synopsis;
+            $newMovie->posterLargeURL = (string)$contentXml->LargePosterImageURL;
+            $newMovie->trailerURL = (string)$contentXml->TrailerURL;
+            $newMovie->webURL = (string)$contentXml->WebURL;
+            $newMovie->runtime = (int)$contentXml->Runtime;
+            $newMovie->rating = (string)$contentXml->Rating;
+            array_push($this->moviesDb, $newMovie);
+        }
     }
 
 }
