@@ -1,0 +1,3 @@
+composer.phar
+/vendor/
+/v1/*_cache.txt
