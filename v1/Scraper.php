@@ -21,8 +21,10 @@ final class Scraper {
     private $THEATRES_CACHE_FILE_NAME = "theatres_cache.txt";
     private $THEATRES_API_ENDPOINT = "https://www.cineplex.com/api/v1/theatres?language=en-us&range=100000&skip=0&take=1000";
 
-    private $MOVIES_CACHE_FILE_NAME = "movies_cache.txt";
-    private $MOVIES_API_ENDPOINT = "https://api.cineplex.com/api.svc/FeaturedNowPlayingAndComingSoon/?AccessKey=ED63F40D-5165-49AD-9975-A463DDF122D5";
+    private $MOVIES_NOW_PLAYING_CACHE_FILE_NAME = "movies_np_cache.txt";
+    private $MOVIES_COMING_SOON_CACHE_FILE_NAME = "movies_cs_cache.txt";
+    private $MOVIES_NOW_PLAYING_API_ENDPOINT = "https://api.cineplex.com/api.svc/MoviesNowPlaying/?AccessKey=ED63F40D-5165-49AD-9975-A463DDF122D5";
+    private $MOVIES_COMING_SOON_API_ENDPOINT = "https://api.cineplex.com/api.svc/MoviesComingSoon/?AccessKey=ED63F40D-5165-49AD-9975-A463DDF122D5";
 
     /**
      * Singleton entry point.
@@ -91,16 +93,15 @@ final class Scraper {
 
     public function fetchMovies()
     {
-
-        if (!file_exists($this->MOVIES_CACHE_FILE_NAME)) {
+        if (!file_exists($this->MOVIES_NOW_PLAYING_CACHE_FILE_NAME)) {
             // We do not have a cached version on disk, so download one and read that.
-            $urlContents = file_get_contents($this->MOVIES_API_ENDPOINT);
-            file_put_contents($this->MOVIES_CACHE_FILE_NAME, $urlContents);
+            $npContents = file_get_contents($this->MOVIES_NOW_PLAYING_API_ENDPOINT);
+            file_put_contents($this->MOVIES_NOW_PLAYING_CACHE_FILE_NAME, $npContents);
         } else {
             // We already have a cached version, so just read that.
-            $urlContents = file_get_contents($this->MOVIES_CACHE_FILE_NAME);
+            $npContents = file_get_contents($this->MOVIES_NOW_PLAYING_CACHE_FILE_NAME);
         }
-        $xml = new SimpleXMLElement($urlContents);
+        $xml = new SimpleXMLElement($npContents);
         foreach ($xml->entry as $entry) {
             $contentXml = $entry->content->children("http://schemas.microsoft.com/ado/2007/08/dataservices/metadata")->children("http://schemas.microsoft.com/ado/2007/08/dataservices");
             $newMovie = new Movie();
@@ -116,6 +117,46 @@ final class Scraper {
             $newMovie->rating = (string)$contentXml->Rating;
             array_push($this->moviesDb, $newMovie);
         }
+
+        if (!file_exists($this->MOVIES_COMING_SOON_CACHE_FILE_NAME)) {
+            // We do not have a cached version on disk, so download one and read that.
+            $csContents = file_get_contents($this->MOVIES_COMING_SOON_API_ENDPOINT);
+            file_put_contents($this->MOVIES_COMING_SOON_CACHE_FILE_NAME, $csContents);
+        } else {
+            // We already have a cached version, so just read that.
+            $csContents = file_get_contents($this->MOVIES_COMING_SOON_CACHE_FILE_NAME);
+        }
+        $xml = new SimpleXMLElement($csContents);
+        foreach ($xml->entry as $entry) {
+            $contentXml = $entry->content->children("http://schemas.microsoft.com/ado/2007/08/dataservices/metadata")->children("http://schemas.microsoft.com/ado/2007/08/dataservices");
+            $newMovie = new Movie();
+            $newMovie->id = (int)$contentXml->FilmID;
+            $newMovie->name = (string)$contentXml->Title;
+            $newMovie->releaseDate = (string)$contentXml->ReleaseDate;
+            $newMovie->genres = (string)$contentXml->Genre;
+            $newMovie->synopsis = (string)$contentXml->Synopsis;
+            $newMovie->posterLargeURL = (string)$contentXml->LargePosterImageURL;
+            $newMovie->trailerURL = (string)$contentXml->TrailerURL;
+            $newMovie->webURL = (string)$contentXml->WebURL;
+            $newMovie->runtime = (int)$contentXml->Runtime;
+            $newMovie->rating = (string)$contentXml->Rating;
+            array_push($this->moviesDb, $newMovie);
+        }
+
+        $serverName = "clipperboard.database.windows.net";
+        $connectionOptions = array(
+            "Database" => "clipperboardsql",
+            "Uid" => "andreagott",
+            "PWD" => "y4UNqDcx2tH89Y98a*]6Jw72U@2"
+        );
+        //Establishes the connection
+        $conn = sqlsrv_connect($serverName, $connectionOptions);
+        if ($conn)
+            echo "Connected!";
+        else {
+            echo "Miserable failure!";
+        }
+
     }
 
 }
