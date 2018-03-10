@@ -159,7 +159,7 @@ VALUES (?,?,?,?,?,?,?,?,?,?);";
             $getResults = sqlsrv_query($conn, $tsql, $params);
             $rowsAffected = sqlsrv_rows_affected($getResults);
             if ($getResults == FALSE or $rowsAffected == FALSE)
-                die(FormatErrors(sqlsrv_errors()));
+                //die(FormatErrors(sqlsrv_errors()));
             sqlsrv_free_stmt($getResults);
         }
 
