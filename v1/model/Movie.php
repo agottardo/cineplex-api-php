@@ -10,14 +10,14 @@ namespace Clapperboard;
 
 class Movie
 {
-    public $id;
-    public $name;
-    public $releaseDate;
+    public $id; //
+    public $name; //
+    public $releaseDate; //
     public $genres;
     public $synopsis;
     public $posterLargeURL;
     public $trailerURL;
-    public $runtime;
+    public $runtime; //
     public $rating;
     public $webURL;
 }

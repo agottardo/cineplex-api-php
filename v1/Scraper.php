@@ -151,11 +151,18 @@ final class Scraper {
         );
         //Establishes the connection
         $conn = sqlsrv_connect($serverName, $connectionOptions);
-        if ($conn)
-            echo "Connected!";
-        else {
-            echo "Miserable failure!";
+        assert($conn != false);
+        foreach ($this->moviesDb as $movie) {
+            $tsql = "INSERT INTO movies (title, releaseDate, runtime, genres, synopsis, posterURL, trailerURL, rating, webURL, cineplexId)
+VALUES (?,?,?,?,?,?,?,?,?,?);";
+            $params = array($movie->name, $movie->releaseDate, $movie->runtime, $movie->genres, $movie->synopsis, $movie->posterURL, $movie->trailerURL, $movie->rating, $movie->webURL, $movie->id);
+            $getResults = sqlsrv_query($conn, $tsql, $params);
+            $rowsAffected = sqlsrv_rows_affected($getResults);
+            if ($getResults == FALSE or $rowsAffected == FALSE)
+                die(FormatErrors(sqlsrv_errors()));
+            sqlsrv_free_stmt($getResults);
         }
+
 
     }
 
