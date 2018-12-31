@@ -41,16 +41,13 @@ final class Scraper {
     /**
      * Private constructor [defeats instantiation].
      */
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * Fetch a list of theatres from api.cineplex.com and save them
      * to the $theatresDb array.
      */
-    public function fetchTheatres()
-    {
+    public function fetchTheatres() {
         // The function caches the result on the server as a .txt to avoid
         // marking too many request to api.cineplex.com.
         // TODO: Download a new version from the API every other day or so.
@@ -91,8 +88,7 @@ final class Scraper {
         assert(sizeof($this->theatresDb) == $totalCount);
     }
 
-    public function fetchMovies()
-    {
+    public function fetchMovies() {
         if (!file_exists($this->MOVIES_NOW_PLAYING_CACHE_FILE_NAME)) {
             // We do not have a cached version on disk, so download one and read that.
             $npContents = file_get_contents($this->MOVIES_NOW_PLAYING_API_ENDPOINT);
@@ -149,6 +145,7 @@ final class Scraper {
             "Uid" => "andreagott",
             "PWD" => "y4UNqDcx2tH89Y98a*]6Jw72U@2"
         );
+
         //Establishes the connection
         $conn = sqlsrv_connect($serverName, $connectionOptions);
         assert($conn != false);
@@ -159,8 +156,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?);";
             $getResults = sqlsrv_query($conn, $tsql, $params);
             $rowsAffected = sqlsrv_rows_affected($getResults);
             if ($getResults == FALSE or $rowsAffected == FALSE)
-                //die(FormatErrors(sqlsrv_errors()));
-            sqlsrv_free_stmt($getResults);
+                die(sqlsrv_errors());
+            else
+                sqlsrv_free_stmt($getResults);
         }
 
 

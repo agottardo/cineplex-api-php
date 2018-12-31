@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Azure (Microsoft) - clipperboardsql@clipperboard.database.windows.net">
+  <database-model serializer="dbm" rdbms="MSSQL" format-version="4.7">
+    <root id="1">
+      <ServerType>azure</ServerType>
+    </root>
+    <database id="2" parent="1" name="clipperboardsql">
+      <ObjectId>5</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="master">
+      <ObjectId>1</ObjectId>
+    </database>
+    <schema id="4" parent="2" name="dbo">
+      <ObjectId>1</ObjectId>
+      <IntrospectionTimestamp>2018-03-10.15:01:21.563</IntrospectionTimestamp>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="5" parent="2" name="guest">
+      <ObjectId>2</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="INFORMATION_SCHEMA">
+      <ObjectId>3</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="sys">
+      <ObjectId>4</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="db_owner">
+      <ObjectId>16384</ObjectId>
+    </schema>
+    <schema id="9" parent="2" name="db_accessadmin">
+      <ObjectId>16385</ObjectId>
+    </schema>
+    <schema id="10" parent="2" name="db_securityadmin">
+      <ObjectId>16386</ObjectId>
+    </schema>
+    <schema id="11" parent="2" name="db_ddladmin">
+      <ObjectId>16387</ObjectId>
+    </schema>
+    <schema id="12" parent="2" name="db_backupoperator">
+      <ObjectId>16389</ObjectId>
+    </schema>
+    <schema id="13" parent="2" name="db_datareader">
+      <ObjectId>16390</ObjectId>
+    </schema>
+    <schema id="14" parent="2" name="db_datawriter">
+      <ObjectId>16391</ObjectId>
+    </schema>
+    <schema id="15" parent="2" name="db_denydatareader">
+      <ObjectId>16392</ObjectId>
+    </schema>
+    <schema id="16" parent="2" name="db_denydatawriter">
+      <ObjectId>16393</ObjectId>
+    </schema>
+    <table id="17" parent="4" name="movies">
+      <ObjectId>1237579447</ObjectId>
+      <CreatedTimestamp>2018-03-07.10:09:02.317</CreatedTimestamp>
+      <ModifiedTimestamp>2018-03-10.14:58:47.340</ModifiedTimestamp>
+    </table>
+    <table id="18" parent="4" name="theatres">
+      <ObjectId>1269579561</ObjectId>
+      <CreatedTimestamp>2018-03-07.10:15:05.450</CreatedTimestamp>
+      <ModifiedTimestamp>2018-03-07.10:15:05.480</ModifiedTimestamp>
+    </table>
+    <column id="19" parent="17" name="id">
+      <Position>1</Position>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DataType>int|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="17" name="title">
+      <Position>2</Position>
+      <DataType>char(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="21" parent="17" name="releaseDate">
+      <Position>3</Position>
+      <DataType>date|0</DataType>
+    </column>
+    <column id="22" parent="17" name="runtime">
+      <Position>4</Position>
+      <DataType>int|0</DataType>
+    </column>
+    <column id="23" parent="17" name="genres">
+      <Position>5</Position>
+      <DataType>char(255)|0</DataType>
+    </column>
+    <column id="24" parent="17" name="synopsis">
+      <Position>6</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <column id="25" parent="17" name="posterURL">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="26" parent="17" name="trailerURL">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="27" parent="17" name="rating">
+      <Position>9</Position>
+      <DataType>char(6)|0</DataType>
+    </column>
+    <column id="28" parent="17" name="webURL">
+      <Position>10</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="29" parent="17" name="cineplexId">
+      <Position>11</Position>
+      <DataType>int|0</DataType>
+    </column>
+    <index id="30" parent="17" name="PK_movies">
+      <Position>1</Position>
+      <ColNames>id
+title</ColNames>
+      <Clustering>1</Clustering>
+      <Unique>1</Unique>
+    </index>
+    <index id="31" parent="17" name="movies_title_uniqueness">
+      <Position>2</Position>
+      <ColNames>title</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="32" parent="17" name="PK_movies">
+      <ObjectId>1253579504</ObjectId>
+      <CreatedTimestamp>2018-03-07.10:09:02.320</CreatedTimestamp>
+      <ModifiedTimestamp>2018-03-07.10:09:02.320</ModifiedTimestamp>
+      <ColNames>id
+title</ColNames>
+      <UnderlyingIndexName>PK_movies</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="33" parent="18" name="id">
+      <Position>1</Position>
+      <DataType>int|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="18" name="cineplex_id">
+      <Position>2</Position>
+      <DataType>int|0</DataType>
+    </column>
+    <column id="35" parent="18" name="name">
+      <Position>3</Position>
+      <DataType>char(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="36" parent="18" name="address1">
+      <Position>4</Position>
+      <DataType>char(255)|0</DataType>
+    </column>
+    <column id="37" parent="18" name="address2">
+      <Position>5</Position>
+      <DataType>char(255)|0</DataType>
+    </column>
+    <column id="38" parent="18" name="city">
+      <Position>6</Position>
+      <DataType>int|0</DataType>
+    </column>
+    <column id="39" parent="18" name="province">
+      <Position>7</Position>
+      <DataType>char(2)|0</DataType>
+    </column>
+    <column id="40" parent="18" name="zipCode">
+      <Position>8</Position>
+      <DataType>char(8)|0</DataType>
+    </column>
+    <column id="41" parent="18" name="latitude">
+      <Position>9</Position>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="42" parent="18" name="longitude">
+      <Position>10</Position>
+      <DataType>float|0</DataType>
+    </column>
+    <column id="43" parent="18" name="driveIn?">
+      <Position>11</Position>
+      <DefaultConstraintName>DF__theatres__driveI__4D94879B</DefaultConstraintName>
+      <DefaultExpression>0</DefaultExpression>
+      <DataType>tinyint|0</DataType>
+    </column>
+    <column id="44" parent="18" name="imageURL">
+      <Position>12</Position>
+      <DataType>text|0</DataType>
+    </column>
+    <index id="45" parent="18" name="PK__theatres__3213E83FFE85EBB2">
+      <Position>1</Position>
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Clustering>1</Clustering>
+      <Unique>1</Unique>
+    </index>
+    <index id="46" parent="18" name="theatres_name_uindex">
+      <Position>2</Position>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="47" parent="18" name="theatres_cineplex_id_uindex">
+      <Position>3</Position>
+      <ColNames>cineplex_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="48" parent="18" name="theatres_address1_uindex">
+      <Position>4</Position>
+      <ColNames>address1</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="49" parent="18" name="theatres_latlong_uindex">
+      <Position>5</Position>
+      <ColNames>latitude
+longitude</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="50" parent="18" name="PK__theatres__3213E83FFE85EBB2">
+      <ObjectId>1285579618</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <CreatedTimestamp>2018-03-07.10:15:05.450</CreatedTimestamp>
+      <ModifiedTimestamp>2018-03-07.10:15:05.450</ModifiedTimestamp>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>PK__theatres__3213E83FFE85EBB2</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <default id="51" parent="18" name="DF__theatres__driveI__4D94879B">
+      <ObjectId>1301579675</ObjectId>
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>driveIn?</ColNames>
+      <DefaultExpression>0</DefaultExpression>
+    </default>
+  </database-model>
+</dataSource>
